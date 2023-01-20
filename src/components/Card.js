@@ -27,7 +27,7 @@ const Card = ({ color, value, side }) => {
             {colorIcon(color)}
           </div>
           <div className="middle">{colorIcon(color)}</div>
-          <div className="bottom">
+          <div className="bottom-card">
             <span>{value}</span>
             {colorIcon(color)}
           </div>

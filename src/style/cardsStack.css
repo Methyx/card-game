@@ -1,0 +1,9 @@
+.cards-stack {
+  width: 100%;
+  position: relative;
+}
+.card-in-stack {
+  width: 100%;
+  position: absolute;
+  top: 0;
+}

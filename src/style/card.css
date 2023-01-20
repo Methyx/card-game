@@ -1,10 +1,19 @@
 .card {
   width: 100%;
-
   height: var(--card-height);
   border: 2px solid grey;
   box-shadow: 2px 3px 3px lightslategray;
   border-radius: 8%;
+  transform-origin: left;
+  animation: card-arrival 1s 1;
+}
+@keyframes card-arrival {
+  0% {
+    transform: rotateY(90deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
 }
 .empty-card {
   width: 100%;
@@ -23,23 +32,26 @@
   width: 90%;
   height: 90%;
   margin: auto;
+  justify-content: space-between;
 }
 .card-top .top,
-.card-top .bottom {
+.card-top .bottom-card {
   font-size: 30px;
-  flex: 1;
+  /* flex: 1; */
+  display: flex;
+  align-items: center;
 }
 .card-top .top span,
-.card-top .bottom span {
+.card-top .bottom-card span {
   font-size: 36px;
   font-weight: 500;
   margin-right: 3%;
 }
-.card-top .bottom {
+.card-top .bottom-card {
   transform: rotate(180deg);
 }
 .card-top .middle {
-  flex: 5;
+  /* flex: 5; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,40 +59,40 @@
 }
 
 @media (max-width: 1199px) {
-  .card {
+  #root {
     --card-height: 200px;
   }
 }
 @media (max-width: 991px) {
-  .card {
+  #root {
     --card-height: 160px;
   }
   .card-top .middle {
     font-size: 40px;
   }
   .card-top .top,
-  .card-top .bottom {
+  .card-top .bottom-card {
     font-size: 25px;
   }
 }
 @media (max-width: 767px) {
-  .card {
+  #root {
     --card-height: 100px;
   }
   .card-top .middle {
     font-size: 30px;
   }
   .card-top .top span,
-  .card-top .bottom span {
+  .card-top .bottom-card span {
     font-size: 20px;
   }
   .card-top .top,
-  .card-top .bottom {
+  .card-top .bottom-card {
     font-size: 16px;
   }
 }
 @media (max-width: 575px) {
-  .card {
+  #root {
     --card-height: 90px;
   }
   .card-top .middle {
