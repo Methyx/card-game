@@ -1,0 +1,89 @@
+.card {
+  width: 100%;
+
+  height: var(--card-height);
+  border: 2px solid grey;
+  box-shadow: 2px 3px 3px lightslategray;
+  border-radius: 8%;
+}
+.empty-card {
+  width: 100%;
+  height: var(--card-height);
+  border: 2px dashed grey;
+  border-radius: 8%;
+}
+.back {
+  background-image: url(../img/2742.jpg);
+  background-size: contain;
+}
+
+.card-top {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 90%;
+  margin: auto;
+}
+.card-top .top,
+.card-top .bottom {
+  font-size: 30px;
+  flex: 1;
+}
+.card-top .top span,
+.card-top .bottom span {
+  font-size: 36px;
+  font-weight: 500;
+  margin-right: 3%;
+}
+.card-top .bottom {
+  transform: rotate(180deg);
+}
+.card-top .middle {
+  flex: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+}
+
+@media (max-width: 1199px) {
+  .card {
+    --card-height: 200px;
+  }
+}
+@media (max-width: 991px) {
+  .card {
+    --card-height: 160px;
+  }
+  .card-top .middle {
+    font-size: 40px;
+  }
+  .card-top .top,
+  .card-top .bottom {
+    font-size: 25px;
+  }
+}
+@media (max-width: 767px) {
+  .card {
+    --card-height: 100px;
+  }
+  .card-top .middle {
+    font-size: 30px;
+  }
+  .card-top .top span,
+  .card-top .bottom span {
+    font-size: 20px;
+  }
+  .card-top .top,
+  .card-top .bottom {
+    font-size: 16px;
+  }
+}
+@media (max-width: 575px) {
+  .card {
+    --card-height: 90px;
+  }
+  .card-top .middle {
+    font-size: 24px;
+  }
+}

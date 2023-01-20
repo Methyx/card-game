@@ -1,0 +1,8 @@
+.game-zone {
+  margin: 20px 0;
+}
+.game-zone .bottom {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}

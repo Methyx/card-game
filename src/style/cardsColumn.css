@@ -1,0 +1,8 @@
+.cardColumn {
+  width: 100%;
+  position: relative;
+}
+.card-in-column {
+  position: absolute;
+  width: 100%;
+}
