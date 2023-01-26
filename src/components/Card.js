@@ -1,3 +1,5 @@
+import { useDraggable } from "@dnd-kit/core";
+
 // style
 import "../style/card.css";
 
@@ -18,10 +20,25 @@ const colorIcon = (color) => {
 };
 
 const Card = ({ color, value, side }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: `${color}-${value}`,
+  });
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        zIndex: 100,
+      }
+    : undefined;
+
   return value ? (
-    <div className={side === "down" ? "card back" : "card"}>
+    <div
+      className={side === "down" ? "card back" : "card"}
+      ref={setNodeRef}
+      style={style}
+      disabled={side === "down" ? true : false}
+    >
       {side === "up" && (
-        <div className="card-top">
+        <div className="card-top" {...listeners} {...attributes}>
           <div className="top">
             <span>{value}</span>
             {colorIcon(color)}

@@ -3,17 +3,16 @@ import generatePack from "./generatePack";
 
 const initGame = () => {
   const deck = generatePack();
+  const columns = [[], [], [], [], [], []];
   // init game
-  const columns = [];
   let n = 6;
   for (let i = 0; i < 6; i++) {
-    columns[i] = [];
-    for (let j = 0; j < n; j++) {
+    for (let j = 1; j <= n; j++) {
       const card = deck.shift();
-      if (j === n - 1) {
+      if (j === n) {
         card.side = "up";
       }
-      columns[i].push(card);
+      columns[j - 1].push(card);
     }
     n--;
   }

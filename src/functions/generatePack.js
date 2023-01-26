@@ -29,7 +29,11 @@ const generatePack = () => {
   const deck = [];
   for (let i = 0; i < colors.length; i++) {
     for (let j = 0; j < values.length; j++) {
-      deck.push({ color: colors[i], value: values[j], side: "down" });
+      deck.push({
+        color: colors[i],
+        value: values[j],
+        side: "down",
+      });
     }
   }
   return shuffleDeck(deck);

@@ -1,6 +1,7 @@
 .cards-stack {
   width: 100%;
   position: relative;
+  height: var(--card-height);
 }
 .card-in-stack {
   width: 100%;

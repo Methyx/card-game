@@ -6,6 +6,9 @@
   display: flex;
   gap: 10px;
 }
+.game-zone .top .deck:hover {
+  cursor: pointer;
+}
 .game-zone .bottom {
   margin-top: 40px;
   width: 100%;
