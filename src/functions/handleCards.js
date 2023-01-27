@@ -27,14 +27,44 @@ export const searchCardPlace = (columns, stacks, rejected, card) => {
   return null;
 };
 
-export const placeCard = (gameCards, card, finalPlace) => {
-  let index = 0;
-  while (
-    gameCards[index].color !== card.color &&
-    gameCards[index].value !== card.value &&
-    index < gameCards.length
-  ) {
-    index++;
+export const isOppositeColors = (card1, card2) => {
+  let result = false;
+  switch (card1.color) {
+    case "heart":
+    case "diamond":
+      result = card2.color === "spade" || card2.color === "club";
+      break;
+    case "club":
+    case "spade":
+      result = card2.color === "heart" || card2.color === "diamond";
+      break;
+    default:
+      break;
   }
-  gameCards[index].place = finalPlace;
+  return result;
+};
+
+export const isFollowingValue = (card1, card2) => {
+  const valuesList = [
+    "A",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "J",
+    "Q",
+    "K",
+  ];
+  let result = false;
+  const index1 = valuesList.indexOf(card1.value);
+  const index2 = valuesList.indexOf(card2.value);
+  if (index1 !== -1 && index2 === index1 + 1) {
+    result = true;
+  }
+  return result;
 };

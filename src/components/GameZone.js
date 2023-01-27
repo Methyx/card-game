@@ -7,7 +7,11 @@ import CardsStack from "./CardsStack";
 
 // functions
 import initGame from "../functions/initGame";
-import { searchCardPlace } from "../functions/handleCards";
+import {
+  searchCardPlace,
+  isFollowingValue,
+  isOppositeColors,
+} from "../functions/handleCards";
 
 // style
 import "../style/gameZone.css";
@@ -30,6 +34,19 @@ const GameZone = () => {
       cardPicked.side = "up";
       newRejected.push(cardPicked);
       setRejected(newRejected);
+    } else {
+      if (rejected.length > 0) {
+        const newDeck = [];
+        const newRejected = [...rejected];
+        const len = newRejected.length;
+        for (let i = 0; i < len; i++) {
+          const card = newRejected.shift();
+          card.side = "down";
+          newDeck.push(card);
+        }
+        setDeck(newDeck);
+        setRejected([]);
+      }
     }
   };
 
@@ -40,8 +57,10 @@ const GameZone = () => {
       color: idTab[0],
       value: idTab[1],
     });
-    cardMoving.startPlace = search.place;
-    cardMoving.index = search.number?.toString() || null;
+    if (search) {
+      cardMoving.startPlace = search.place;
+      cardMoving.index = search.number?.toString() || null;
+    }
   };
 
   const handleDragEnd = (event) => {
@@ -69,15 +88,46 @@ const GameZone = () => {
       switch (dropPlace[0]) {
         case "column":
           const newColumns = [...columns];
-          newColumns[dropPlace[1]].push(card);
-          setColumns(newColumns);
+          const lastCardIndexColumn = newColumns[dropPlace[1]].length - 1;
+          if (lastCardIndexColumn >= 0) {
+            const previousCard = newColumns[dropPlace[1]][lastCardIndexColumn];
+            validation =
+              isFollowingValue(card, previousCard) &&
+              isOppositeColors(previousCard, card);
+            if (validation) {
+              newColumns[dropPlace[1]].push(card);
+              setColumns(newColumns);
+            }
+          } else {
+            if (card.value === "K") {
+              newColumns[dropPlace[1]].push(card);
+              setColumns(newColumns);
+            } else {
+              validation = false;
+            }
+          }
           break;
         case "stack":
           const newStacks = [...stacks];
-          newStacks[dropPlace[1]].push(card);
-          setStacks(newStacks);
+          const lastCardIndexStack = newStacks[dropPlace[1]].length - 1;
+          if (lastCardIndexStack >= 0) {
+            const lastCardInStack = newStacks[dropPlace[1]][lastCardIndexStack];
+            validation =
+              card.color === lastCardInStack.color &&
+              isFollowingValue(lastCardInStack, card);
+            if (validation) {
+              newStacks[dropPlace[1]].push(card);
+              setStacks(newStacks);
+            }
+          } else {
+            if (card.value === "A") {
+              newStacks[dropPlace[1]].push(card);
+              setStacks(newStacks);
+            } else {
+              validation = false;
+            }
+          }
           break;
-
         default:
           validation = false;
           break;
