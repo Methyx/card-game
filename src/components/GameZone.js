@@ -4,11 +4,12 @@ import { DndContext } from "@dnd-kit/core";
 // components
 import CardsColumn from "./CardsColumn";
 import CardsStack from "./CardsStack";
+import CardsDeck from "./CardsDeck";
 
 // functions
 import initGame from "../functions/initGame";
 import {
-  searchCardPlace,
+  searchCardsMoving,
   isFollowingValue,
   isOppositeColors,
 } from "../functions/handleCards";
@@ -23,7 +24,7 @@ const GameZone = () => {
   const [stacks, setStacks] = useState([[], [], [], []]);
   const [rejected, setRejected] = useState([]);
 
-  const cardMoving = { id: null, startPlace: null, index: null };
+  const cardMoving = { id: null, startPlace: null, index: null, cards: null };
 
   const handleDeckPick = () => {
     if (deck.length > 0) {
@@ -53,13 +54,15 @@ const GameZone = () => {
   const handleDragStart = (event) => {
     cardMoving.id = event.active.id;
     const idTab = event.active.id.split("-");
-    const search = searchCardPlace(columns, stacks, rejected, {
+    const search = searchCardsMoving(columns, stacks, rejected, {
       color: idTab[0],
       value: idTab[1],
     });
     if (search) {
       cardMoving.startPlace = search.place;
-      cardMoving.index = search.number?.toString() || null;
+      cardMoving.index = search.number;
+      cardMoving.cards = search.cards;
+      // console.log(cardMoving);
     }
   };
 
@@ -67,23 +70,23 @@ const GameZone = () => {
     if (event.over) {
       const dropPlace = event.over.id.split("-");
       // drag and drop to same place
-      if (cardMoving.startPlace === dropPlace[0]) {
+      if (cardMoving.startPlace === Number(dropPlace[0])) {
         if (dropPlace.length === 1) {
           cardMoving.id = null;
           return;
         } else {
-          if (cardMoving.index === dropPlace[1]) {
+          if (cardMoving.index === Number(dropPlace[1])) {
             cardMoving.id = null;
             return;
           }
         }
       }
       // dop to another place
-      const card = {
-        color: cardMoving.id.split("-")[0],
-        value: cardMoving.id.split("-")[1],
-        side: "up",
-      };
+      // const card = {
+      //   color: cardMoving.id.split("-")[0],
+      //   value: cardMoving.id.split("-")[1],
+      //   side: "up",
+      // };
       let validation = true;
       switch (dropPlace[0]) {
         case "column":
@@ -92,15 +95,19 @@ const GameZone = () => {
           if (lastCardIndexColumn >= 0) {
             const previousCard = newColumns[dropPlace[1]][lastCardIndexColumn];
             validation =
-              isFollowingValue(card, previousCard) &&
-              isOppositeColors(previousCard, card);
+              isFollowingValue(cardMoving.cards[0], previousCard) &&
+              isOppositeColors(previousCard, cardMoving.cards[0]);
             if (validation) {
-              newColumns[dropPlace[1]].push(card);
+              cardMoving.cards.forEach((card) => {
+                newColumns[dropPlace[1]].push(card);
+              });
               setColumns(newColumns);
             }
           } else {
-            if (card.value === "K") {
-              newColumns[dropPlace[1]].push(card);
+            if (cardMoving.cards[0].value === "K") {
+              cardMoving.cards.forEach((card) => {
+                newColumns[dropPlace[1]].push(card);
+              });
               setColumns(newColumns);
             } else {
               validation = false;
@@ -108,26 +115,33 @@ const GameZone = () => {
           }
           break;
         case "stack":
-          const newStacks = [...stacks];
-          const lastCardIndexStack = newStacks[dropPlace[1]].length - 1;
-          if (lastCardIndexStack >= 0) {
-            const lastCardInStack = newStacks[dropPlace[1]][lastCardIndexStack];
-            validation =
-              card.color === lastCardInStack.color &&
-              isFollowingValue(lastCardInStack, card);
-            if (validation) {
-              newStacks[dropPlace[1]].push(card);
-              setStacks(newStacks);
-            }
+          if (cardMoving.cards.length > 1) {
+            validation = false;
+            break;
           } else {
-            if (card.value === "A") {
-              newStacks[dropPlace[1]].push(card);
-              setStacks(newStacks);
+            const card = cardMoving.cards[0];
+            const newStacks = [...stacks];
+            const lastCardIndexStack = newStacks[dropPlace[1]].length - 1;
+            if (lastCardIndexStack >= 0) {
+              const lastCardInStack =
+                newStacks[dropPlace[1]][lastCardIndexStack];
+              validation =
+                card.color === lastCardInStack.color &&
+                isFollowingValue(lastCardInStack, card);
+              if (validation) {
+                newStacks[dropPlace[1]].push(card);
+                setStacks(newStacks);
+              }
             } else {
-              validation = false;
+              if (card.value === "A") {
+                newStacks[dropPlace[1]].push(card);
+                setStacks(newStacks);
+              } else {
+                validation = false;
+              }
             }
+            break;
           }
-          break;
         default:
           validation = false;
           break;
@@ -136,7 +150,9 @@ const GameZone = () => {
         switch (cardMoving.startPlace) {
           case "column":
             const newColumns = [...columns];
-            newColumns[cardMoving.index].pop();
+            for (let i = 1; i <= cardMoving.cards.length; i++) {
+              newColumns[cardMoving.index].pop();
+            }
             const len = newColumns[cardMoving.index].length;
             if (len > 0) {
               newColumns[cardMoving.index][len - 1].side = "up";
@@ -159,6 +175,7 @@ const GameZone = () => {
       }
       cardMoving.id = null;
       cardMoving.startPlace = null;
+      cardMoving.cards = null;
     }
   };
 
@@ -176,7 +193,7 @@ const GameZone = () => {
             onClick={handleDeckPick}
             style={{ width: "100%" }}
           >
-            <CardsStack id={"deck"} cards={deck} />
+            <CardsDeck cards={deck} />
           </div>
 
           <CardsStack id={"rejected"} cards={rejected} />

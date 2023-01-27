@@ -2,6 +2,7 @@ import { useDroppable } from "@dnd-kit/core";
 
 // components
 import Card from "./Card";
+import HandleStack from "./HandleStack";
 
 // style
 import "../style/cardsStack.css";
@@ -16,19 +17,11 @@ const CardsStack = ({ id, cards }) => {
 
   const isCards = cards.length > 0;
   return (
-    <div
-      className="cards-stack"
-      ref={id !== "deck" ? setNodeRef : null}
-      style={style}
-    >
+    <div className="cards-stack" ref={setNodeRef} style={style}>
       {isCards ? (
         <div>
           {cards.map((item, index) => {
-            return (
-              <div className="card-in-stack" key={index}>
-                <Card color={item.color} value={item.value} side={item.side} />
-              </div>
-            );
+            return <HandleStack card={item} key={index} />;
           })}
         </div>
       ) : (

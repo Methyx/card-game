@@ -1,7 +1,7 @@
 import { useDroppable } from "@dnd-kit/core";
 
 // components
-import Card from "./Card";
+import HandleColumn from "./HandleColumn";
 
 // style
 import "../style/cardsColumn.css";
@@ -20,19 +20,7 @@ const CardsColumn = ({ id, cards }) => {
         height: `calc(var(--card-height) * ${1 + cards.length * 0.15})`,
       }}
     >
-      {cards.map((item, index) => {
-        return (
-          <div
-            className="card-in-column"
-            key={index}
-            style={{
-              top: `calc(var(--card-height) * ${index * 0.15})`,
-            }}
-          >
-            <Card color={item.color} value={item.value} side={item.side} />
-          </div>
-        );
-      })}
+      <HandleColumn cards={cards} index={0} />
     </div>
   );
 };

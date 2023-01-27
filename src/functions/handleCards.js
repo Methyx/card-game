@@ -1,20 +1,22 @@
-export const searchCardPlace = (columns, stacks, rejected, card) => {
+export const searchCardsMoving = (columns, stacks, rejected, card) => {
   for (let i = 0; i < columns.length; i++) {
-    const last = columns[i].length - 1;
-    if (last >= 0) {
-      const lastCard = columns[i][last];
+    let index1 = columns[i].length - 1;
+    while (index1 >= 0) {
+      const lastCard = columns[i][index1];
       if (lastCard.value === card.value && lastCard.color === card.color) {
-        return { place: "column", number: i };
+        return { place: "column", number: i, cards: columns[i].slice(index1) };
       }
+      index1--;
     }
   }
   for (let i = 0; i < stacks.length; i++) {
-    const last = stacks[i].length - 1;
-    if (last >= 0) {
-      const lastCard = stacks[i][last];
+    let index2 = stacks[i].length - 1;
+    while (index2 >= 0) {
+      const lastCard = stacks[i][index2];
       if (lastCard.value === card.value && lastCard.color === card.color) {
-        return { place: "stack", number: i };
+        return { place: "stack", number: i, cards: stacks[i].slice(index2) };
       }
+      index2--;
     }
   }
   if (
@@ -22,7 +24,11 @@ export const searchCardPlace = (columns, stacks, rejected, card) => {
     rejected[rejected.length - 1].value === card.value &&
     rejected[rejected.length - 1].color === card.color
   ) {
-    return { place: "rejected", number: null };
+    return {
+      place: "rejected",
+      number: null,
+      cards: [rejected[rejected.length - 1]],
+    };
   }
   return null;
 };
