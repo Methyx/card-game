@@ -6,4 +6,5 @@
   position: absolute;
   width: 100%;
   top: calc(var(--card-height) * 0.15);
+  touch-action: none;
 }
