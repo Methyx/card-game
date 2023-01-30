@@ -2,7 +2,7 @@
   width: 100%;
   height: var(--card-height);
   border: 2px solid grey;
-  box-shadow: 2px 3px 3px lightslategray;
+  box-shadow: 2px 1px 1px lightslategray;
   border-radius: 8%;
   transform-origin: left;
   animation: card-arrival 1s 1;

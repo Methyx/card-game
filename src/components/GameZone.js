@@ -82,11 +82,6 @@ const GameZone = () => {
         }
       }
       // dop to another place
-      // const card = {
-      //   color: cardMoving.id.split("-")[0],
-      //   value: cardMoving.id.split("-")[1],
-      //   side: "up",
-      // };
       let validation = true;
       switch (dropPlace[0]) {
         case "column":

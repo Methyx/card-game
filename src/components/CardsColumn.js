@@ -17,7 +17,7 @@ const CardsColumn = ({ id, cards }) => {
       ref={setNodeRef}
       style={{
         border: isOver ? "1px solid green" : null,
-        height: `calc(var(--card-height) * ${1 + cards.length * 0.15})`,
+        height: `calc(var(--card-height) * ${1.1 + cards.length * 0.25})`,
       }}
     >
       <HandleColumn cards={cards} index={0} />
