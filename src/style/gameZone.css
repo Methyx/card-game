@@ -1,5 +1,6 @@
 .game-zone {
-  margin: 20px 0;
+  margin: 20px auto;
+  max-width: 800px;
 }
 .game-zone .top {
   width: 100%;
