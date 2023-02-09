@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { DndContext } from "@dnd-kit/core";
 
 // components
@@ -6,8 +6,10 @@ import CardsColumn from "./CardsColumn";
 import CardsStack from "./CardsStack";
 import CardsDeck from "./CardsDeck";
 
+import { GameContext } from "../functions/context";
+
 // functions
-import initGame from "../functions/initGame";
+import handleDeckPick from "../functions/handleDeckPick";
 import {
   searchCardsMoving,
   isFollowingValue,
@@ -18,38 +20,19 @@ import {
 import "../style/gameZone.css";
 
 const GameZone = () => {
-  const [initDeck, initColumns] = initGame();
-  const [deck, setDeck] = useState(initDeck);
-  const [columns, setColumns] = useState(initColumns);
-  const [stacks, setStacks] = useState([[], [], [], []]);
-  const [rejected, setRejected] = useState([]);
+  //init with Game Context
+  const {
+    deck,
+    setDeck,
+    columns,
+    setColumns,
+    stacks,
+    setStacks,
+    rejected,
+    setRejected,
+  } = useContext(GameContext);
 
   const cardMoving = { id: null, startPlace: null, index: null, cards: null };
-
-  const handleDeckPick = () => {
-    if (deck.length > 0) {
-      const newDeck = [...deck];
-      const newRejected = [...rejected];
-      const cardPicked = newDeck.shift();
-      setDeck(newDeck);
-      cardPicked.side = "up";
-      newRejected.push(cardPicked);
-      setRejected(newRejected);
-    } else {
-      if (rejected.length > 0) {
-        const newDeck = [];
-        const newRejected = [...rejected];
-        const len = newRejected.length;
-        for (let i = 0; i < len; i++) {
-          const card = newRejected.shift();
-          card.side = "down";
-          newDeck.push(card);
-        }
-        setDeck(newDeck);
-        setRejected([]);
-      }
-    }
-  };
 
   const handleDragStart = (event) => {
     cardMoving.id = event.active.id;
@@ -185,7 +168,7 @@ const GameZone = () => {
           })}
           <div
             className="deck"
-            onClick={handleDeckPick}
+            onClick={() => handleDeckPick(deck, setDeck, rejected, setRejected)}
             style={{ width: "100%" }}
           >
             <CardsDeck cards={deck} />

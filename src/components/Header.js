@@ -1,7 +1,26 @@
+import { useContext } from "react";
+
+import { GameContext } from "../functions/context";
+
+// functions
+import initGame from "../functions/initGame";
+
 // style
 import "../style/header.css";
 
 const Header = () => {
+  // init with Game Context
+  const { setDeck, setColumns, setStacks, setRejected } =
+    useContext(GameContext);
+
+  const restartGame = () => {
+    const [initDeck, initColumns] = initGame();
+    setDeck(initDeck);
+    setColumns(initColumns);
+    setStacks([[], [], [], []]);
+    setRejected([]);
+  };
+
   return (
     <header>
       <h1>Solitaire Card Game</h1>
@@ -36,9 +55,8 @@ const Header = () => {
               <button
                 type="button"
                 className="btn btn-success"
-                onClick={() => {
-                  console.log("restart");
-                }}
+                data-bs-dismiss="modal"
+                onClick={restartGame}
               >
                 Yes, restart
               </button>
