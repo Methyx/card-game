@@ -177,7 +177,7 @@ const GameZone = () => {
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className="game-zone">
-        <div className="top">
+        <div className="top-game-zone">
           {stacks.map((item, index) => {
             return (
               <CardsStack id={`stack-${index}`} key={index} cards={item} />
@@ -193,7 +193,7 @@ const GameZone = () => {
 
           <CardsStack id={"rejected"} cards={rejected} />
         </div>
-        <div className="bottom">
+        <div className="bottom-game-zone">
           {columns.map((item, index) => {
             return (
               <CardsColumn id={`column-${index}`} key={index} cards={item} />

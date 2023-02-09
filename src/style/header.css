@@ -1,0 +1,25 @@
+header {
+  width: 100%;
+  height: min(12vw, 200px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1vw 0;
+}
+header h1 {
+  font-size: clamp(12px, 4vw, 40px);
+  font-weight: 300;
+  color: yellowgreen;
+  text-shadow: 0 0 2px yellow, 2px 2px 1vw yellowgreen, 2px 2px 1vw grey;
+  border: 2px solid yellowgreen;
+  border-radius: 1vw;
+  padding: 0.8vw;
+  box-shadow: 0 0 2px yellow, 2px 2px 1vw yellowgreen, 2px 2px 1vw grey;
+  margin-bottom: 1vw;
+}
+header button.btn {
+  font-size: max(1vw, 10px);
+  margin-top: 1vw;
+  padding: 0.5vw 1vw;
+  border: 2px solid darkgreen;
+}

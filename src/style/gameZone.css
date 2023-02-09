@@ -2,17 +2,21 @@
   margin: 20px auto;
   padding: 20px 20px;
   max-width: 800px;
-  background-color: green;
+  min-height: 500px;
+  /* background-color: #157348; */
+  background-color: var(--bs-success);
+  border-radius: 3%;
+  box-shadow: 5px 5px 10px 1px black;
 }
-.game-zone .top {
+.game-zone .top-game-zone {
   width: 100%;
   display: flex;
   gap: 10px;
 }
-.game-zone .top .deck:hover {
+.game-zone .top-game-zone .deck:hover {
   cursor: pointer;
 }
-.game-zone .bottom {
+.game-zone .bottom-game-zone {
   margin-top: 40px;
   width: 100%;
   display: flex;
