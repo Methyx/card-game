@@ -12,7 +12,7 @@ const CardsStack = ({ id, cards }) => {
     id: id,
   });
   const style = {
-    border: isOver ? "1px solid green" : null,
+    border: isOver ? "3px solid var(--bs-success)" : null,
   };
 
   const isCards = cards.length > 0;

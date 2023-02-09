@@ -16,7 +16,7 @@ const CardsColumn = ({ id, cards }) => {
       className="cardColumn"
       ref={setNodeRef}
       style={{
-        border: isOver ? "1px solid green" : null,
+        border: isOver ? "3px solid var(--bs-success)" : null,
         height: `calc(var(--card-height) * ${1.1 + cards.length * 0.25})`,
       }}
     >

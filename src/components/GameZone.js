@@ -10,11 +10,8 @@ import { GameContext } from "../functions/context";
 
 // functions
 import handleDeckPick from "../functions/handleDeckPick";
-import {
-  searchCardsMoving,
-  isFollowingValue,
-  isOppositeColors,
-} from "../functions/handleCards";
+import isValidMove from "../functions/isValidMove";
+import { searchCardsMoving } from "../functions/handleCards";
 
 // style
 import "../style/gameZone.css";
@@ -49,82 +46,37 @@ const GameZone = () => {
     }
   };
 
+  const handleDragOver = (event) => {
+    if (event.over) {
+      const overPlace = event.over.id?.split("-");
+      if (overPlace && overPlace.length > 0 && cardMoving?.cards) {
+        console.log(isValidMove(cardMoving, overPlace, columns, stacks));
+      }
+    }
+  };
+
   const handleDragEnd = (event) => {
     if (event.over) {
       const dropPlace = event.over.id.split("-");
-      // drag and drop to same place
-      if (cardMoving.startPlace === Number(dropPlace[0])) {
-        if (dropPlace.length === 1) {
-          cardMoving.id = null;
-          return;
-        } else {
-          if (cardMoving.index === Number(dropPlace[1])) {
-            cardMoving.id = null;
-            return;
-          }
-        }
-      }
-      // dop to another place
-      let validation = true;
-      switch (dropPlace[0]) {
-        case "column":
-          const newColumns = [...columns];
-          const lastCardIndexColumn = newColumns[dropPlace[1]].length - 1;
-          if (lastCardIndexColumn >= 0) {
-            const previousCard = newColumns[dropPlace[1]][lastCardIndexColumn];
-            validation =
-              isFollowingValue(cardMoving.cards[0], previousCard) &&
-              isOppositeColors(previousCard, cardMoving.cards[0]);
-            if (validation) {
-              cardMoving.cards.forEach((card) => {
-                newColumns[dropPlace[1]].push(card);
-              });
-              setColumns(newColumns);
-            }
-          } else {
-            if (cardMoving.cards[0].value === "K") {
-              cardMoving.cards.forEach((card) => {
-                newColumns[dropPlace[1]].push(card);
-              });
-              setColumns(newColumns);
-            } else {
-              validation = false;
-            }
-          }
-          break;
-        case "stack":
-          if (cardMoving.cards.length > 1) {
-            validation = false;
+      const validation = isValidMove(cardMoving, dropPlace, columns, stacks);
+      if (validation) {
+        switch (dropPlace[0]) {
+          case "column":
+            const newColumns = [...columns];
+            cardMoving.cards.forEach((card) => {
+              newColumns[dropPlace[1]].push(card);
+            });
+            setColumns(newColumns);
             break;
-          } else {
+          case "stack":
             const card = cardMoving.cards[0];
             const newStacks = [...stacks];
-            const lastCardIndexStack = newStacks[dropPlace[1]].length - 1;
-            if (lastCardIndexStack >= 0) {
-              const lastCardInStack =
-                newStacks[dropPlace[1]][lastCardIndexStack];
-              validation =
-                card.color === lastCardInStack.color &&
-                isFollowingValue(lastCardInStack, card);
-              if (validation) {
-                newStacks[dropPlace[1]].push(card);
-                setStacks(newStacks);
-              }
-            } else {
-              if (card.value === "A") {
-                newStacks[dropPlace[1]].push(card);
-                setStacks(newStacks);
-              } else {
-                validation = false;
-              }
-            }
+            newStacks[dropPlace[1]].push(card);
+            setStacks(newStacks);
             break;
-          }
-        default:
-          validation = false;
-          break;
-      }
-      if (validation) {
+          default:
+            break;
+        }
         switch (cardMoving.startPlace) {
           case "column":
             const newColumns = [...columns];
@@ -158,7 +110,11 @@ const GameZone = () => {
   };
 
   return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+    >
       <div className="game-zone">
         <div className="top-game-zone">
           {stacks.map((item, index) => {

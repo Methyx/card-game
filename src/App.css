@@ -5,7 +5,7 @@
 .App {
   font-family: Poppins, sans-serif;
   /* background-color: #f1f1f1f1; */
-  min-height: 100vh;
+  min-height: max(100vh, calc(7 * var(--card-height)));
   /* background-image: repeating-linear-gradient(
       135deg,
       rgba(0, 0, 0, 0.03) 0px,

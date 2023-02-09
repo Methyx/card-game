@@ -2,7 +2,7 @@
   margin: 20px auto;
   padding: 20px 20px;
   max-width: 800px;
-  min-height: 500px;
+  min-height: calc(5 * var(--card-height));
   /* background-color: #157348; */
   background-color: var(--bs-success);
   border-radius: 3%;

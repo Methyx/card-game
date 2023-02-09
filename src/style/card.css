@@ -5,7 +5,7 @@
   box-shadow: 1px 1px 3px 0px #323e32;
   border-radius: 8%;
   transform-origin: left;
-  animation: card-arrival 0.8s 1;
+  animation: card-arrival 0.5s 1;
 }
 @keyframes card-arrival {
   0% {

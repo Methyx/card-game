@@ -10,7 +10,7 @@ const HandleColumn = ({ cards, index }) => {
   });
   const style = transform
     ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0) scale(1.05)`,
         zIndex: 100,
       }
     : undefined;
