@@ -3,14 +3,15 @@ import { useDraggable } from "@dnd-kit/core";
 // components
 import Card from "./Card";
 
-const HandleStack = ({ card }) => {
+const HandleStack = ({ card, borderColorOnMove }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `${card?.color}-${card?.value}`,
   });
   const style = transform
     ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0) scale(1.05)`,
         zIndex: 100,
+        boxShadow: `0 0 10px 5px ${borderColorOnMove}`,
       }
     : undefined;
 

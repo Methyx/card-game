@@ -7,7 +7,7 @@ import HandleStack from "./HandleStack";
 // style
 import "../style/cardsStack.css";
 
-const CardsStack = ({ id, cards }) => {
+const CardsStack = ({ id, cards, borderColorOnMove }) => {
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
@@ -21,7 +21,13 @@ const CardsStack = ({ id, cards }) => {
       {isCards ? (
         <div>
           {cards.map((item, index) => {
-            return <HandleStack card={item} key={index} />;
+            return (
+              <HandleStack
+                card={item}
+                key={index}
+                borderColorOnMove={borderColorOnMove}
+              />
+            );
           })}
         </div>
       ) : (

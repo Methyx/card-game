@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DndContext } from "@dnd-kit/core";
 
 // components
@@ -29,28 +29,41 @@ const GameZone = () => {
     setRejected,
   } = useContext(GameContext);
 
-  const cardMoving = { id: null, startPlace: null, index: null, cards: null };
+  const [cardMoving, setCardMoving] = useState({
+    id: null,
+    startPlace: null,
+    index: null,
+    cards: null,
+  });
+  const [borderColorOnMove, setBorderColorOnMove] = useState("red");
 
   const handleDragStart = (event) => {
-    cardMoving.id = event.active.id;
     const idTab = event.active.id.split("-");
     const search = searchCardsMoving(columns, stacks, rejected, {
       color: idTab[0],
       value: idTab[1],
     });
     if (search) {
-      cardMoving.startPlace = search.place;
-      cardMoving.index = search.number;
-      cardMoving.cards = search.cards;
+      setCardMoving({
+        id: event.active.id,
+        startPlace: search.place,
+        index: search.number,
+        cards: search.cards,
+      });
       // console.log(cardMoving);
     }
   };
 
   const handleDragOver = (event) => {
     if (event.over) {
+      // console.log(event.over);
       const overPlace = event.over.id?.split("-");
       if (overPlace && overPlace.length > 0 && cardMoving?.cards) {
-        console.log(isValidMove(cardMoving, overPlace, columns, stacks));
+        if (isValidMove(cardMoving, overPlace, columns, stacks)) {
+          setBorderColorOnMove("green");
+        } else {
+          setBorderColorOnMove("red");
+        }
       }
     }
   };
@@ -103,9 +116,12 @@ const GameZone = () => {
             break;
         }
       }
-      cardMoving.id = null;
-      cardMoving.startPlace = null;
-      cardMoving.cards = null;
+      setCardMoving({
+        id: null,
+        startPlace: null,
+        index: null,
+        cards: null,
+      });
     }
   };
 
@@ -119,7 +135,12 @@ const GameZone = () => {
         <div className="top-game-zone">
           {stacks.map((item, index) => {
             return (
-              <CardsStack id={`stack-${index}`} key={index} cards={item} />
+              <CardsStack
+                id={`stack-${index}`}
+                key={index}
+                cards={item}
+                borderColorOnMove={borderColorOnMove}
+              />
             );
           })}
           <div
@@ -130,12 +151,21 @@ const GameZone = () => {
             <CardsDeck cards={deck} />
           </div>
 
-          <CardsStack id={"rejected"} cards={rejected} />
+          <CardsStack
+            id={"rejected"}
+            cards={rejected}
+            borderColorOnMove={borderColorOnMove}
+          />
         </div>
         <div className="bottom-game-zone">
           {columns.map((item, index) => {
             return (
-              <CardsColumn id={`column-${index}`} key={index} cards={item} />
+              <CardsColumn
+                id={`column-${index}`}
+                key={index}
+                cards={item}
+                borderColorOnMove={borderColorOnMove}
+              />
             );
           })}
         </div>

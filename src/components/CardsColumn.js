@@ -6,7 +6,7 @@ import HandleColumn from "./HandleColumn";
 // style
 import "../style/cardsColumn.css";
 
-const CardsColumn = ({ id, cards }) => {
+const CardsColumn = ({ id, cards, borderColorOnMove }) => {
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
@@ -20,7 +20,11 @@ const CardsColumn = ({ id, cards }) => {
         height: `calc(var(--card-height) * ${1.1 + cards.length * 0.25})`,
       }}
     >
-      <HandleColumn cards={cards} index={0} />
+      <HandleColumn
+        cards={cards}
+        index={0}
+        borderColorOnMove={borderColorOnMove}
+      />
     </div>
   );
 };
