@@ -18,8 +18,8 @@ header h1 {
   margin-bottom: 1vw;
 }
 header button.btn {
-  font-size: max(1vw, 10px);
-  margin-top: 1vw;
-  padding: 0.5vw 1vw;
+  font-size: max(2vmin, 10px);
+  margin-top: 1vmin;
+  padding: 0.5vmin 1vmin;
   border: 2px solid darkgreen;
 }

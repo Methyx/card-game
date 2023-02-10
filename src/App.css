@@ -1,5 +1,5 @@
 :root {
-  --card-height: min(15vw, 160px);
+  --card-height: min(15vmin, 160px);
 }
 
 .App {
