@@ -1,0 +1,54 @@
+.celebration {
+  width: 100%;
+  min-height: calc(3 * var(--card-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.celebration img {
+  position: absolute;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.celebration h1 {
+  font-size: 2vw;
+  margin-bottom: 1vw;
+  z-index: 2;
+}
+
+.celebration h1 span {
+  color: darkred;
+  text-shadow: 2px 2px 0px red, -2px -2px 0px red, 0 0 10px red, 0 0 20px grey;
+
+  animation: infinite 1s blink-txt;
+}
+@keyframes blink-txt {
+  0% {
+    text-shadow: 2px 2px 0px red, -2px -2px 0px red, 0 0 10px red, 0 0 20px grey;
+  }
+
+  70% {
+    text-shadow: 1px 1px 0px red;
+  }
+}
+.celebration h1 span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.celebration h1 span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.celebration h1 span:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.celebration h1 span:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.celebration h1 span:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.celebration h1 span:nth-child(7) {
+  animation-delay: 0.6s;
+}

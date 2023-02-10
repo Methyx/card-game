@@ -15,6 +15,7 @@ function App() {
   const [columns, setColumns] = useState([]);
   const [stacks, setStacks] = useState([[], [], [], []]);
   const [rejected, setRejected] = useState([]);
+  const [gameWon, setGameWon] = useState(false);
 
   return (
     <div className="App container">
@@ -28,6 +29,8 @@ function App() {
           setStacks: setStacks,
           rejected: rejected,
           setRejected: setRejected,
+          gameWon: gameWon,
+          setGameWon: setGameWon,
         }}
       >
         <Header />

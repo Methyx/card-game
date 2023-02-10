@@ -10,10 +10,11 @@ import "../style/header.css";
 
 const Header = () => {
   // init with Game Context
-  const { setDeck, setColumns, setStacks, setRejected } =
+  const { setDeck, setColumns, setStacks, setRejected, setGameWon } =
     useContext(GameContext);
 
   const restartGame = () => {
+    setGameWon(false);
     const [initDeck, initColumns] = initGame();
     setDeck(initDeck);
     setColumns(initColumns);

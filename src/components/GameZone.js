@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { DndContext } from "@dnd-kit/core";
 
 // components
 import CardsColumn from "./CardsColumn";
 import CardsStack from "./CardsStack";
 import CardsDeck from "./CardsDeck";
+import Celebration from "./Celebration";
 
 import { GameContext } from "../functions/context";
 
@@ -27,8 +28,11 @@ const GameZone = () => {
     setStacks,
     rejected,
     setRejected,
+    gameWon,
+    setGameWon,
   } = useContext(GameContext);
 
+  // STATES
   const [cardMoving, setCardMoving] = useState({
     id: null,
     startPlace: null,
@@ -37,6 +41,7 @@ const GameZone = () => {
   });
   const [borderColorOnMove, setBorderColorOnMove] = useState("red");
 
+  // Functions
   const handleDragStart = (event) => {
     const idTab = event.active.id.split("-");
     const search = searchCardsMoving(columns, stacks, rejected, {
@@ -125,6 +130,20 @@ const GameZone = () => {
     }
   };
 
+  // check if 4 stacks are full --> WIN
+  useEffect(() => {
+    let win = true;
+    for (let i = 0; i < stacks.length; i++) {
+      if (stacks[i].length !== 13) {
+        win = false;
+      }
+    }
+    if (win) {
+      setGameWon(true);
+    }
+  }, [stacks, setGameWon]);
+
+  // Return
   return (
     <DndContext
       onDragStart={handleDragStart}
@@ -132,43 +151,51 @@ const GameZone = () => {
       onDragOver={handleDragOver}
     >
       <div className="game-zone">
-        <div className="top-game-zone">
-          {stacks.map((item, index) => {
-            return (
-              <CardsStack
-                id={`stack-${index}`}
-                key={index}
-                cards={item}
-                borderColorOnMove={borderColorOnMove}
-              />
-            );
-          })}
-          <div
-            className="deck"
-            onClick={() => handleDeckPick(deck, setDeck, rejected, setRejected)}
-            style={{ width: "100%" }}
-          >
-            <CardsDeck cards={deck} />
-          </div>
+        {gameWon ? (
+          <Celebration />
+        ) : (
+          <>
+            <div className="top-game-zone">
+              {stacks.map((item, index) => {
+                return (
+                  <CardsStack
+                    id={`stack-${index}`}
+                    key={index}
+                    cards={item}
+                    borderColorOnMove={borderColorOnMove}
+                  />
+                );
+              })}
+              <div
+                className="deck"
+                onClick={() =>
+                  handleDeckPick(deck, setDeck, rejected, setRejected)
+                }
+                style={{ width: "100%" }}
+              >
+                <CardsDeck cards={deck} />
+              </div>
 
-          <CardsStack
-            id={"rejected"}
-            cards={rejected}
-            borderColorOnMove={borderColorOnMove}
-          />
-        </div>
-        <div className="bottom-game-zone">
-          {columns.map((item, index) => {
-            return (
-              <CardsColumn
-                id={`column-${index}`}
-                key={index}
-                cards={item}
+              <CardsStack
+                id={"rejected"}
+                cards={rejected}
                 borderColorOnMove={borderColorOnMove}
               />
-            );
-          })}
-        </div>
+            </div>
+            <div className="bottom-game-zone">
+              {columns.map((item, index) => {
+                return (
+                  <CardsColumn
+                    id={`column-${index}`}
+                    key={index}
+                    cards={item}
+                    borderColorOnMove={borderColorOnMove}
+                  />
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </DndContext>
   );
